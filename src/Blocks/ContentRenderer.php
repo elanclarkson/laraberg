@@ -14,13 +14,13 @@ class ContentRenderer
         $this->parser = $parser;
     }
 
-    public function render(string $content): string
+    public function render(string $content, object $context): string
     {
         $output = '';
         $blocks = $this->parser->parse($content);
 
         foreach ($blocks as $block) {
-            $output .= $block->render();
+            $output .= $block->render($context);
         }
 
         return $output;

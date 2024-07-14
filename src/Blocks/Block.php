@@ -50,20 +50,20 @@ class Block
         $this->embedService = app('laraberg.embed');
     }
 
-    public function render(): string
+    public function render(object $context): string
     {
         $output = '';
 
         $index = 0;
-        foreach($this->innerContent as $innerContent) {
+        foreach ($this->innerContent as $innerContent) {
             $output .= is_string($innerContent)
                 ? $innerContent
-                : $this->innerBlocks[$index++]->render();
+                : $this->innerBlocks[$index++]->render($context);
         }
 
         $blockType = $this->registry->getBlockType($this->blockName);
         if ($blockType && $blockType->isDynamic()) {
-            $output = call_user_func($blockType->renderCallback, $this->attributes, $output, $this);
+            $output = call_user_func($blockType->renderCallback, $this->attributes, $output, $this, $context);
         }
 
         if (strpos($this->blockName, 'embed') !== false) {

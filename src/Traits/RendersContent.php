@@ -14,7 +14,7 @@ trait RendersContent
         $column = $column ?: $this->getContentColumn();
         $renderer = app(ContentRenderer::class);
         $content = $this->$column;
-        return $renderer->render(is_string($content) ? $content : '');
+        return $renderer->render(is_string($content) ? $content : '', $this);
     }
 
     protected function getContentColumn()
